@@ -1,2 +1,3 @@
-# NLP_GroupProject_DG
-NLP: Document Classification Group Project
+# NLP: Document Classification Group Project
+
+Internship Group Project. (To be filled in). 
