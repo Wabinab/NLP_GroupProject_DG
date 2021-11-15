@@ -40,12 +40,12 @@ def data_chooser(path, destine, threshold=35):
 
         # Try if we could open the file. 
         try: 
-
+            i, line_num = 0, 0
             for i, l in enumerate(lines): 
                 if re.match("Lines:", l) and openit is False: 
-                    try: line_num = int(re.findall("\d+", l)[0])
-                    except IndexError: errors.append(str(path/file) + "\n")
-                    if line_num < 35: break
+                    try: line_num = int(re.findall(r'\d+', l)[-1])
+                    except IndexError: pass
+                    if line_num < threshold: break
                 if re.match("\n", l) and openit is False:
                     openit = True
                     if f: f.close()
@@ -57,7 +57,8 @@ def data_chooser(path, destine, threshold=35):
             try: f.close()
             except Exception: pass
 
-        except UnicodeDecodeError: 
-            errors.append(str(path/file) + "\n")
+        except UnicodeDecodeError as e: 
+            errors.append(str(path/file) + f"\t{i}\t{line_num}" + "\n")
+        
 
     with open(destine/"errors.txt", "a") as f: f.writelines(errors)

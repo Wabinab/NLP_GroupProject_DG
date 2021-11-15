@@ -13,5 +13,6 @@ assert os.path.exists(dest)
 
 from nlputils import *
 
-for folder in os.listdir(path):
+if os.path.exists(dest/"errors.txt"): os.remove(dest/"errors.txt")
+for folder in sorted(os.listdir(path)):
     data_chooser(path/folder, dest)
