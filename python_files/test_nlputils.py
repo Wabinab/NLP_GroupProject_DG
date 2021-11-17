@@ -24,6 +24,7 @@ from nlputils import *
 curr_path = Path(".")
 path = curr_path/"test/sample_data"
 dest = curr_path/"test/dest"
+if not os.path.exists(dest): os.mkdir(dest)
 
 
 # If we call setup, it will run for ALL, but I only want it to run for MOST. 
