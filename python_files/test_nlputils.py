@@ -20,7 +20,8 @@ from nlputils import *
 
 
 # Setup 
-curr_path = Path(os.getcwd())
+# curr_path = Path(os.getcwd())
+curr_path = Path(".")
 path = curr_path/"test/sample_data"
 dest = curr_path/"test/dest"
 
@@ -53,7 +54,7 @@ def test_data_chooser_error_file_have_one_error():
     with open(dest/"errors.txt", "r") as f: g.append(f.readlines())
 
     assert len(g) == 1
-    assert g[0][0] == "/home/fastai2/notebooks/DataGlacier/NLP_GroupProject_DG/python_files/test/sample_data/comp.graphics/38291\t0\t0\n"
+    assert g[0][0] == str(path/"comp.graphics/38291\t0\t0\n")
 
 
 def test_data_chooser_below_threshold_not_chosen():
