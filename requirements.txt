@@ -8,3 +8,4 @@ seaborn==0.11.2
 tabulate==0.8.9
 tqdm==4.62.3
 pytest==6.2.5
+fastai==2.5.2
