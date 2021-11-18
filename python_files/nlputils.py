@@ -1,3 +1,6 @@
+__all__ = ["data_chooser", "split_data", "threshold_subset", "clean_data",
+            "stoi"]
+
 import numpy as np
 import re
 import os
@@ -74,25 +77,29 @@ def split_data(data, idx=None):
     return x
 
 
-def threshold_subset(all_xs, threshold=10):
+def threshold_subset(all_xs, threshold=10, geq=True):
     """
     Will return a numpy array containing all the data that is to be kept.
     Threshold means the number of lines (after separated using `split_data`)
     for the data to be retained, inclusive. By default, threshold=10 means
     if data is less than 10 lines it will be discarded. 
+
+    : geq: (greater equal to). Whether to choose larger than threshold (True),
+        or less than threshold (False). Defaults: True.
     """
     to_keep = []
     for k, x in enumerate(all_xs):
         sentence_len = len(split_data(x))
         if sentence_len >= threshold: to_keep.append(k)
 
-    return np.array(to_keep)
+    if geq: return np.array(to_keep)
+    else: return np.delete(np.arange(len(all_xs)), to_keep)
 
 
 def clean_data(text, include_newline=True):
     """Cleaning data based on certain set of characters.
     If include_newline=True, newline will be replaced by single space."""
-    text = re.sub("[:<>\t*-]", "", text)
+    text = re.sub("[<>\t*-]", "", text)
     if include_newline: text = re.sub("\n", " ", text)
     text = text.split("\'")  # .replace("\\", "") doesn't work. 
     text = "'".join(text)
