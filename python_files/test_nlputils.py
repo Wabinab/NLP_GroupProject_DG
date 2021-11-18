@@ -102,43 +102,51 @@ def test_threshold_subset_works_as_expected_smaller_than():
     assert len(threshold_subset(data, 3)) == 1
 
 
-def test_threshold_subset_multiple_works():
-    data = ["This is\nwhat we want\nto see, at\nleast for now.",   # 4
+@pytest.fixture
+def three_str(tmpdir): 
+    return ["This is\nwhat we want\nto see, at\nleast for now.",   # 4
             "What do\nyou want\nto see?", # 3
             "This is\nnot what\nyou\'d expect\nif you\ntry this\nagain."] # 6
-    assert len(threshold_subset(data, 3)) == 3
-    assert len(threshold_subset(data, 4)) == 2
 
 
-def test_threshold_subset_returns_array_is_index():
-    data = ["This is\nwhat we want\nto see, at\nleast for now.",   # 4
-            "What do\nyou want\nto see?", # 3
-            "This is\nnot what\nyou\'d expect\nif you\ntry this\nagain."] # 6
-    assert list(threshold_subset(data, 4)) == [0, 2]
+def test_threshold_subset_multiple_works(three_str):
+    assert len(threshold_subset(three_str, 3)) == 3
+    assert len(threshold_subset(three_str, 4)) == 2
+
+
+def test_threshold_subset_returns_array_is_index(three_str):
+    assert list(threshold_subset(three_str, 4)) == [0, 2]
+
+
+def test_threshold_subset_return_array_leq_false(three_str):
+    """So we want less than or equal rather than greater than or equal. """
+    assert list(threshold_subset(three_str, 4, False)) == [1]
 
 
 def test_clean_data_all_expected_to_go_is_gone_first_line():
     """Ignore the data, it has no meaning and simple gibberish written."""
     data = """Whatever he is: We shall not rule> based on what they said to us <> we shall never know <\twithout proper\tdefinition existed*****************--------------------"""
-    assert clean_data(data) == """Whatever he is We shall not rule based on what they said to us  we shall never know without properdefinition existed"""
+    assert clean_data(data) == """Whatever he is: We shall not rule based on what they said to us  we shall never know without properdefinition existed"""
 
 
-def test_clean_data_include_newline_false_not_split():
-    data = "This is\nnot what\nyou\'d expect\nif you\ntry this\nagain."
-    assert clean_data(data, False) == "This is\nnot what\nyou\'d expect\nif you\ntry this\nagain."
+@pytest.fixture
+def cleandata_str(tmpdir): 
+    return "This is\nnot what\nyou\'d expect\nif you\ntry this\nagain."
 
 
-def test_clean_data_include_newline_true_split_accordingly():
-    data = "This is\nnot what\nyou\'d expect\nif you\ntry this\nagain."
-    assert clean_data(data, True) == "This is not what you\'d expect if you try this again."
+def test_clean_data_include_newline_false_not_split(cleandata_str):
+    assert clean_data(cleandata_str, False) == "This is\nnot what\nyou\'d expect\nif you\ntry this\nagain."
 
 
-def test_clean_data_replaced_works():
+def test_clean_data_include_newline_true_split_accordingly(cleandata_str):
+    assert clean_data(cleandata_str, True) == "This is not what you\'d expect if you try this again."
+
+
+def test_clean_data_replaced_works(cleandata_str):
     """Note in previous test it works when we don't replace \' because Python ignores the backslash.
     But that's not necessary the case when we human reads, and unsure whether it's the case if ML models
     reads, hence we remove it. """
-    data = "This is\nnot what\nyou\'d expect\nif you\ntry this\nagain."
-    assert clean_data(data, True) == "This is not what you'd expect if you try this again."
+    assert clean_data(cleandata_str, True) == "This is not what you'd expect if you try this again."
 
 
 vocab = ["I", "you", "be", "want", "fun", "have", "to", "single"]
