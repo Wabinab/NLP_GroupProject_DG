@@ -6,6 +6,12 @@
 `git commit -m "any message"`
 `git push` (and copy the error code if it want to push to upstream and paste it. This is when you first define a new branch). 
 
+## What if you forked it and commit there?
+This assumes you have your thing on your computer. And you add a commit. So this is what you do. 
+- `git add .` (I assumed you do this)
+- `git commit -am "any message"` (**remember to add the `-am` rather than `-m`**).
+- `gh pr create -B main -t "enter title" -b "enter body of PR here"` to create pull request. 
+
 ## Rules:
 - **Never push to main**/master. If we make mistake, we can delete a side branch. However if otherwise, we may have to delete the whole repo. 
 - *Pull from master* (and push to your own development branch). You're allowed to make a new branch. 
