@@ -8,3 +8,6 @@ One thing to note on the printing of pandas DataFrame. For text we output quite 
 
 ## Newest Info: 20 Nov 2021 (To Esraa)
 I uploaded the .docx for Week 9 and 10 so you can make changes yourself. Otherwise, send me information and I'll make the changes for you. 
+
+## Edit 23 November 2021
+Since the data is very big and one doesn't have lots of GIT LFS storage available, one is sharing the pretrained-encoder and trained-models through [this link](https://mega.nz/folder/B6xiUKAA#bLoIPShzjCOeQs1DTM-RGg).
