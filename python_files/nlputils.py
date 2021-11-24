@@ -113,10 +113,12 @@ def stoi(vocab, word):
     Then we want the type to be correct, else we raise error. 
     """
     from fastcore.foundation import L
+    from collections import defaultdict
 
     # Convert array to dict for vocab, if it is
-    if type(vocab) in [np.ndarray, list, L]:
-        vocab = {key: index for index, key in enumerate(vocab)}
+    if type(vocab) in [np.ndarray, list, L]: 
+        vocab = {v: k for k, v in enumerate(vocab)}
+    vocab = defaultdict(int, vocab)
 
     # type checks and do stoi. 
     if isinstance(word, str): word = word.split(" ")  # convert to list
