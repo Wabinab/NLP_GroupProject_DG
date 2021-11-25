@@ -11,3 +11,13 @@ Since the data is very big and one doesn't have lots of GIT LFS storage availabl
 
 ## Edit 25 November 2021
 Those with pdf upload the pdfs (and ipynb if asked, check your submission). For Week 10 upload `EDA.ipynb`. For Week 12 upload `advanced_model.ipynb`. 
+
+
+## Acknowledgments
+
+Ken Lang is credited by the source for collecting this data. The source of the data files is here:
+http://qwone.com/~jason/20Newsgroups/
+
+## Inspiration
+This dataset text can be used to classify text documents
+ 
