@@ -96,11 +96,22 @@ def threshold_subset(all_xs, threshold=10, geq=True):
     else: return np.delete(np.arange(len(all_xs)), to_keep)
 
 
-def clean_data(text, include_newline=True):
+def clean_data(text, include_newline=False):
     """Cleaning data based on certain set of characters.
     If include_newline=True, newline will be replaced by single space."""
-    text = re.sub("[<>\t*-]", "", text)
+    text = re.sub(r'[\^]{2,}', '', text)
+    text = re.sub("\x0c", '', text)
+    text = re.sub(r'[A-Za-z0-9]+@[A-Za-z0-9.]+', '', text)  # replace away emails.
+    text = re.sub(r'_+/', '', text)   # ____/__/__/
+    text = re.sub(r'(/\\)+', '', text)  # /\/\/\/\/\/\/\/\/\/\
+    text = re.sub(r'(/\|)+', '', text)  # /|/|/|/|/|/|/|/|/|/|
+    text = re.sub(r'\|+', '', text)  # ||||||||||||
+    text = re.sub(r'\(\d+\) \d+', '', text)  # Telephone and fax numbers. 'Fax: (908) 3027267' --> 'Fax: '.
+    text = re.sub(r'\(\d+\)\d+', '', text)  # if without space. 
+    text = re.sub(r'[0-9]{10,}', '', text)  # purely numbers longer than 10 digits.
     if include_newline: text = re.sub("\n", " ", text)
+
+    # This may not require because it appears only in print() out? 
     text = text.split("\'")  # .replace("\\", "") doesn't work. 
     text = "'".join(text)
     return text

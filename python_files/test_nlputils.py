@@ -123,10 +123,85 @@ def test_threshold_subset_return_array_leq_false(three_str):
     assert list(threshold_subset(three_str, 4, False)) == [1]
 
 
-def test_clean_data_all_expected_to_go_is_gone_first_line():
-    """Ignore the data, it has no meaning and simple gibberish written."""
-    data = """Whatever he is: We shall not rule> based on what they said to us <> we shall never know <\twithout proper\tdefinition existed*****************--------------------"""
-    assert clean_data(data) == """Whatever he is: We shall not rule based on what they said to us  we shall never know without properdefinition existed"""
+# We're not testing for "not removed" because we're doing things
+# independently, hence other test work together with each other
+# testing for "non-removed" rather than having their own independent
+# test. 
+
+
+def test_clean_data_two_or_more_upperarrow_works():
+    """[\\^]{2,} is what we want to test (ignore one more backslash 
+    which is there as it keeps giving warning.)"""
+    data = "^^^^^ test ^^"
+    assert clean_data(data) == " test "
+
+
+def test_clean_data_only_one_upperarrow_not_removed(): 
+    data = "replace^with"
+    assert clean_data(data) == "replace^with"
+
+
+def test_clean_data_x0c_removed():
+    data = "Data with \x0c removed"
+    assert clean_data(data) == "Data with  removed"
+
+
+def test_clean_data_email_removed():
+    """Assuming : aren't removed, or will fail. """
+    data = "Email: wabinab@gmail.co.uk"
+    assert clean_data(data) == "Email: "
+
+
+def test_clean_data_und_slash_removed():
+    """______/___/... are removed"""
+    data = "______/_____/___/_/removed/____/___/_/"
+    assert clean_data(data) == "removed/"
+
+
+def test_clean_data_slash_backslash_removed():
+    """/\\/\\/\\/\\/\\ stuffs (assume final backslash not there)"""
+    data = "/\\/\\/\\/\\/\\ this is it /\\/\\"  
+    assert clean_data(data) == " this is it "
+
+
+def test_clean_data_slash_straight_removed():
+    """These are |||"""
+    data = "||| removed"
+    assert clean_data(data) == " removed"
+
+
+def test_clean_data_phone_number_type_one_removed():
+    """Type one is line number one, e.g.: (908) 3027267"""
+    data = "Fax: (908) 3027267689"
+    assert clean_data(data) == "Fax: "
+
+
+def test_clean_data_phone_number_type_two_removed():
+    """Same as before, but without space: (908)3027267"""
+    data = "Fax: (908)302726789"
+    assert clean_data(data) == "Fax: "
+
+
+def test_clean_data_phone_number_no_brackets_length_ten_removed():
+    """Either length 10 or length 11 must be removed"""
+    data = "Fax: 2967847234"  # length 10
+    assert clean_data(data) == "Fax: "
+
+
+def test_clean_data_phone_number_no_brackets_length_eleven_removed():
+    """Length 11 this time removed"""
+    data = "Fax: 29678674568"  # length 11
+    assert clean_data(data) == "Fax: "
+
+
+def test_clean_data_phone_number_no_brackets_shorter_length_not_removed():
+    data = "Fax: 369"
+    assert clean_data(data) == data
+
+
+def test_clean_data_phone_number_no_brackets_longer_length_removed():
+    data = "Fax: 297684725312"  # length 12
+    assert clean_data(data) == "Fax: "
 
 
 @pytest.fixture
