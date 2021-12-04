@@ -1,10 +1,10 @@
 # How to use Git (basics)
-`git clone ...`
-`git checkout -b new_branch_name` (checkout to a new branch that may or may not exist). 
-... make your changes...
-`git add .` (or `git add -u` if not all you want to add)
-`git commit -m "any message"`
-`git push` (and copy the error code if it want to push to upstream and paste it. This is when you first define a new branch). 
+`git clone ...`  
+`git checkout -b new_branch_name` (checkout to a new branch that may or may not exist).  
+... make your changes...  
+`git add .` (or `git add -u` if not all you want to add)  
+`git commit -m "any message"`  
+`git push` (and copy the error code if it want to push to upstream and paste it. This is when you first define a new branch).   
 
 ## What if you forked it and commit there?
 This assumes you have your thing on your computer. And you add a commit. So this is what you do. 
